@@ -22,4 +22,12 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	float RunningTime{0.f};
+	UPROPERTY(EditAnywhere)
+	float Amplitude{0.25f};
+	UPROPERTY(EditAnywhere)
+	float TimeConstant{5.f};
 };

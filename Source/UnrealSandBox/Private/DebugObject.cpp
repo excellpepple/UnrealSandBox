@@ -2,7 +2,8 @@
 
 
 #include "DebugObject.h"
-#include "DrawDebugHelpers.h"
+#include "UnrealSandBox/DebugMacros.h"
+#include "UnrealSandBox/UnrealSandBox.h"
 
 
 // Sets default values
@@ -18,15 +19,6 @@ void ADebugObject::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GEngine){
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString("Hello World"));
-	}
-	UWorld* world = GetWorld();
-	if(world)
-	{
-		FVector Location = GetActorLocation();
-		DrawDebugCircle(world, Location, 40.f, 24, FColor::Red, true);	
-	}
 	
 }
 
@@ -34,5 +26,28 @@ void ADebugObject::BeginPlay()
 void ADebugObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// UE_LOG(LogTemp, Warning, TEXT("DeltaTime: %f"), DeltaTime);
+	// float MovementRate = 150.f;
+	// float RotationRate = 45.f;
+	
+	// AddActorWorldOffset(FVector(MovementRate * DeltaTime, 0.f, 0.f));
+	// AddActorWorldRotation(FRotator(0.F, RotationRate * DeltaTime, 0.f));
+
+
+	
+	RunningTime += DeltaTime;
+
+
+	
+	float DeltaZ = Amplitude * FMath::Sin(RunningTime * TimeConstant);
+	
+	AddActorWorldOffset(FVector(0.f, 0.f, DeltaZ));
+	
+	DRAW_SPHERE_SINGLE_FRAME(GetActorLocation());
+	DRAW_VECTOR_SINGLE_FRAME(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 100.f);
+
+	
+	
+
 }
 
